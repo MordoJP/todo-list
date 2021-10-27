@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+
+    <title>Задачи</title>
+</head>
+<body>
+<div id="app" v-cloak>
+    <v-app>
+        <v-card height="100%" flat tile>
+            <v-toolbar dense color="primary" dark>
+                <v-app-bar-nav-icon></v-app-bar-nav-icon>
+                <v-toolbar-title class="headline">Список дел</v-toolbar-title>
+
+                <v-spacer></v-spacer>
+
+                <v-switch
+                        color="error"
+                        v-model="$vuetify.theme.dark"
+                        inset
+                        hide-details
+                        persistent-hint
+                ></v-switch>
+
+            </v-toolbar>
+
+            <v-container>
+                <v-layout row justify-center>
+                    <v-flex class="xs12 ma-5">
+                        <v-card>
+                            <v-list two-line subheader>
+                                <v-container>
+                                    <v-subheader class="headline">
+                                        {{ new Date() | date }}
+                                    </v-subheader>
+                                    <v-spacer></v-spacer>
+                                    <p class="text-sm-right">У вас <b>{{ todos.length }}</b> задач.</p>
+                                    <v-flex class="xs12">
+                                        <v-text-field
+                                                label="Введите название задачи"
+                                                clearable
+                                                id="newTodo"
+                                                name="newTodo"
+                                                v-model="taskTitle"
+                                                @keyup.enter="addTask"
+                                        ></v-text-field>
+                                    </v-flex>
+                                </v-container>
+                                <v-container>
+                                    <v-layout justify-center>
+                                        <v-subheader v-if="todos.length === 0">У вас 0 задач. Добавьте новую.</v-subheader>
+                                        <v-subheader v-else>Ваши задачи:</v-subheader>
+                                    </v-layout>
+                                    <v-spacer></v-spacer>
+                                    <div
+                                            v-for="(task, key) in todos"
+                                            :key="key"
+                                    >
+                                        <v-list-item>
+                                            <v-list-item-action>
+                                                <v-btn
+                                                        icon
+                                                        v-model="task.done"
+                                                        @click="task.done = !task.done"
+                                                        v-if="!task.done"
+                                                >
+                                                    <v-icon>
+                                                        mdi-checkbox-blank-outline
+                                                    </v-icon>
+                                                </v-btn>
+                                                <v-btn
+                                                        icon
+                                                        v-else
+                                                        disabled
+                                                >
+                                                    <v-icon>
+                                                        mdi-checkbox-marked-outline
+                                                    </v-icon>
+                                                </v-btn>
+                                            </v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title :class="{'text-decoration-line-through': task.done}">
+                                                    {{ task.title | capitalize}}
+                                                </v-list-item-title>
+                                                <v-list-item-subtitle>
+                                                    Добавлено в: {{ task.date | date }}
+                                                </v-list-item-subtitle>
+                                            </v-list-item-content>
+                                            <v-btn
+                                                    icon
+                                                    ripple
+                                                    class="error"
+                                                    @click="removeTask(task.id)"
+                                            >
+                                                <v-icon color="white">mdi-window-close</v-icon>
+                                            </v-btn>
+                                        </v-list-item>
+                                    </div>
+                                </v-container>
+                            </v-list>
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+        </v-card>
+    </v-app>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
