@@ -48,7 +48,27 @@ new Vue({
                 .catch(e => console.log(e))
         },
         removeTask (id) {
-            this.todos = this.todos.filter(task => task.id !== id)
+            fetch('/api/todo/' + id, {
+                method: 'delete'
+            })
+                .then(() => {
+                    this.todos = this.todos.filter(task => task.id !== id)
+                })
+                .catch(e => console.log(e))
+        },
+        completeTask(id) {
+            fetch('/api/todo/' + id, {
+                method: 'put',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({done: true})
+            })
+                .then(res => res.json())
+                .then(({task}) => {
+                    const idx = this.todos.findIndex(t => t.id === task.id)
+                    this.todos[idx].updatedAt = task.updatedAt
+                })
+                .catch(e => console.log(e))
+            console.log(id)
         }
     },
     filters: {

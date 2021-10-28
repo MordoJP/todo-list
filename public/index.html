@@ -74,9 +74,9 @@
                                             <v-list-item-action>
                                                 <v-btn
                                                         icon
-                                                        v-model="task.done"
-                                                        @click="task.done = !task.done"
                                                         v-if="!task.done"
+                                                        v-model="task.done"
+                                                        @click="(task.done = !task.done) && (completeTask(task.id))"
                                                 >
                                                     <v-icon>
                                                         mdi-checkbox-blank-outline
