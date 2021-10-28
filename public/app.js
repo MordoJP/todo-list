@@ -19,6 +19,16 @@ new Vue({
         taskTitle: '',
         todos: []
     }),
+    created() {
+        fetch('/api/todo', {
+            method: 'get'
+        })
+            .then(res => res.json())
+            .then(todos => {
+                this.todos = todos
+            })
+            .catch(e => console.log(e))
+    },
     methods: {
         addTask () {
             const title = this.taskTitle.trim()
