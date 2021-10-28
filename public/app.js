@@ -63,12 +63,11 @@ new Vue({
                 body: JSON.stringify({done: true})
             })
                 .then(res => res.json())
-                .then(({task}) => {
-                    const idx = this.todos.findIndex(t => t.id === task.id)
-                    this.todos[idx].updatedAt = task.updatedAt
+                .then(({todo}) => {
+                    const idx = this.todos.findIndex(t => t.id === todo.id)
+                    this.todos[idx].updatedAt = todo.updatedAt
                 })
                 .catch(e => console.log(e))
-            console.log(id)
         }
     },
     filters: {
