@@ -97,7 +97,8 @@
                                                     {{ task.title | capitalize}}
                                                 </v-list-item-title>
                                                 <v-list-item-subtitle>
-                                                    Добавлено в: {{ task.date | date }}
+                                                    Добавлено в: {{ task.createdAt | date(true) }}
+                                                    (изменено {{ task.updatedAt | date(true) }})
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-btn
