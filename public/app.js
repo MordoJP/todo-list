@@ -38,7 +38,6 @@ new Vue({
         })
             .then(res => res.json())
             .then(response => {
-                console.log(response)
                 this.todos = response.data.getTodos
             })
     },
@@ -50,7 +49,7 @@ new Vue({
             }
             const query = `
                 mutation {
-                    createTodo(todo: {title: "${ title }"}) {
+                    addTask(todo: {title: "${ title }"}) {
                         id title done createdAt updatedAt
                     }
                 }
@@ -72,8 +71,18 @@ new Vue({
                 .catch(e => console.log(e))
         },
         removeTask (id) {
-            fetch('/api/todo/' + id, {
-                method: 'delete'
+            const query = `
+                mutation {
+                    removeTask(id: "${id}")
+                }
+            `
+            fetch('/graphql', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ query })
             })
                 .then(() => {
                     this.todos = this.todos.filter(task => task.id !== id)
@@ -88,7 +97,6 @@ new Vue({
                     }
                 }
             `
-
 
             fetch('/graphql', {
                 method: 'post',
